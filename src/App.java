@@ -13,7 +13,7 @@ public class App {
     WebDriver driver;
 
     public App(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Usser\\Desktop\\caso de prueba\\Prueba1\\driver\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\koderx\\Desktop\\automationExercises\\driver\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
 
          
          ChromeOptions options = new ChromeOptions();
