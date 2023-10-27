@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -6,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 
 import dev.failsafe.internal.util.Assert;
 
@@ -71,9 +73,24 @@ public class App {
         this.driver.findElement((By.id("password"))).sendKeys("1234");
 
 
-        WebElement month = this.driver.findElement(By.id("months"));
-        month.click();
-        System.out.println(month.findElement(By.xpath("//option[contains(@value, '3')]")).getText());
+        WebElement days = this.driver.findElement(By.id("days"));
+        days.click();
+        Select selectday = new Select(days);
+        selectday.selectByValue("3");
+        
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        WebElement months = this.driver.findElement(By.id("months"));
+        months.click();
+        Select selectmt = new Select(months);
+        selectmt.selectByValue("10");
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        WebElement year = this.driver.findElement(By.id("years"));
+        year.click();
+        Select selectyr = new Select(year);
+        selectyr.selectByValue("2005");
     }
 
     @Test
