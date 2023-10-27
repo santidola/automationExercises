@@ -32,7 +32,7 @@ public class App {
     }
     
     public void clicksiginup(){
-
+        HomeVisiblity();
         WebElement sigin = driver.findElement(By.xpath("//i[contains(@class, 'fa fa-lock')]"));
         sigin.click();
 
@@ -41,7 +41,7 @@ public class App {
 
 
     public static void main(String[] args) throws Exception {
-        new App().clicksiginup();
+        new App().VerifyInformation();
     
 
     }
@@ -62,8 +62,29 @@ public class App {
         txtemail.get(1).sendKeys("Koderselagano@gmail.com");
 
         List<WebElement> btnsiginup = driver.findElements(By.xpath("//button[contains(@class,'btn-default')]"));
-        btnsiginup.get(2).click();
+        btnsiginup.get(1).click();
 
+
+        WebElement Checkbox1 = this.driver.findElement(By.id("id_gender1"));
+        Checkbox1.click();
+
+        this.driver.findElement((By.id("password"))).sendKeys("1234");
+
+
+        WebElement month = this.driver.findElement(By.id("months"));
+        month.click();
+        System.out.println(month.findElement(By.xpath("//option[contains(@value, '3')]")).getText());
+    }
+
+    @Test
+    public void VerifyInformation(){
+        Newverifiuser();
+        WebElement div = this.driver.findElement(By.xpath("//h2[contains(@class, 'title text-center')]"));
+        junit.framework.Assert.assertTrue(div.isDisplayed());
 
     }
+
+    
+
+
 }
