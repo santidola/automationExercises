@@ -9,8 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
-import dev.failsafe.internal.util.Assert;
-
 public class App {
     WebDriver driver;
 
@@ -77,7 +75,7 @@ public class App {
         days.click();
         Select selectday = new Select(days);
         selectday.selectByValue("3");
-        
+
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         WebElement months = this.driver.findElement(By.id("months"));
@@ -90,7 +88,7 @@ public class App {
         WebElement year = this.driver.findElement(By.id("years"));
         year.click();
         Select selectyr = new Select(year);
-        selectyr.selectByValue("2005");
+        selectyr.selectByValue("2007");
     }
 
     @Test
