@@ -3,6 +3,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,19 +12,17 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 
+import dev.failsafe.internal.util.Assert;
+
 public class App {
     WebDriver driver;
 
     public App(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Usser\\Desktop\\caso de prueba\\Prueba1\\driver\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", Credentials.driver);
          
          ChromeOptions options = new ChromeOptions();
-       
-         options.addArguments("--disable-infobars"); // Desactiva la barra de información
-        options.addArguments("--disable-extensions"); // Desactiva las extensiones
-        options.addArguments("--disable-popup-blocking"); // Desactiva el bloqueo de ventanas emergentes
-        options.addArguments("--disable-save-password-bubble"); // Desactiva la burbuja de guardar contraseñas
-        options.addArguments("--disable-translate");
+       // Desactiva las extensiones
+        options.addArguments("--disable-notifications");
         
          this.driver = new ChromeDriver(options);
 
@@ -59,13 +58,13 @@ public class App {
         WebElement div = this.driver.findElement(By.xpath("//div[contains(@class, 'signup-form')]"));
         junit.framework.Assert.assertTrue(div.isDisplayed());
 
-        String [] charcs = new String[] {"A", "B", "C", "D", "F", "G", "H", "I", "W", "Q", "V", "B", "Z", "T", "U", "P", "@", "3", "4", "5", "7"};
+        String [] charcs = new String[] {"A", "B", "C", "D", "F", "G", "H", "I", "W", "Q", "V", "B", "Z", "T", "U", "P", "@", "3", "4", "5", "7", "$", "8", "1", "2", "3", "4", "6", "9", "#"};
         Random rn = new Random();
         String name = "", email ="";
 
-        for(int i = 0; i < charcs.length; i++){
-            int index = rn.nextInt(charcs.length);
-            name += charcs[index];
+        int index1 = rn.nextInt(5, charcs.length-1);
+        for(int i = 0; i < index1; i++){
+            name += charcs[rn.nextInt(0, charcs.length-1)];
         }
 
         WebElement txtname = this.driver.findElement(By.name("name"));
@@ -73,8 +72,9 @@ public class App {
 
         int index = rn.nextInt(5, charcs.length-1);
         for(int i = 0; i < index; i++){
-            if(charcs[i] != "@"){
-              email += charcs[i];  
+            String randomChar = charcs[rn.nextInt(0, charcs.length-1)];
+            if (randomChar != "@") {
+                email += randomChar;
             }
         }
 
@@ -97,7 +97,7 @@ public class App {
         days.click();
         Select selectday = new Select(days);
         selectday.selectByValue("3");
-
+        
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         WebElement months = this.driver.findElement(By.id("months"));
@@ -111,6 +111,36 @@ public class App {
         year.click();
         Select selectyr = new Select(year);
         selectyr.selectByValue("2005");
+
+        WebElement Checkbox2 = this.driver.findElement(By.id("newsletter"));
+        Checkbox2.click();
+
+         WebElement Checkbox3 = this.driver.findElement(By.id("optin"));
+        Checkbox3.click();
+
+
+        driver.findElement(By.name("first_name")).sendKeys("Koder");
+        driver.findElement(By.name("last_name")).sendKeys("se la gano");
+        driver.findElement(By.name("company")).sendKeys("Koder S.A.S");
+        driver.findElement(By.name("address1")).sendKeys("calle 100 # 23-10");
+        
+
+        WebElement country = this.driver.findElement(By.id("country"));
+        country.click();
+        Select selectcou = new Select(country);
+        selectcou.selectByValue("Canada");
+
+
+        driver.findElement(By.name("state")).sendKeys("antioquia");
+        driver.findElement(By.name("city")).sendKeys("medellin mor");
+        driver.findElement(By.name("zipcode")).sendKeys("0150");
+        driver.findElement(By.name("mobile_number")).sendKeys("3284356743");
+
+        WebElement btncreate = driver.findElement(By.xpath("//button[contains(@class,'btn btn-default')]"));
+        btncreate.click();
+
+        WebElement btncontinue = driver.findElement(By.xpath("//button[contains(@class,'btn btn-primary')]"));
+        btncontinue.click();
     }
 
     @Test
