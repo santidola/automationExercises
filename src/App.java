@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
-public class App {
+public class App extends Tests {
     WebDriver driver;
 
     public App() {
@@ -46,11 +46,17 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        new App().VerifyInformation();
-
+        
+        //se utiliza el poliformismo para instanciar el obejeto, con el finde utilizar el metodo de distintas maneras
+        //pero cambiando su funcionalidad
+        App test = new Test2();
+        test.Newverifiuser();
     }
 
     @Test
+    // override sobre escribe el metodo(basicamente es utilizar el metodo en cualquier otra clase q la necesitemos
+    //instanciandolo con la misma funcionalidad y pudiendo cambiar la informacion)
+    @Override
     public void Newverifiuser() {
 
         clicksiginup();
@@ -139,6 +145,13 @@ public class App {
     }
 
     @Test
+    @Override
+    public void VerifyLogin(){
+        clicksiginup();
+        junit.framework.Assert.assertTrue(this.driver.findElement(By.className("signup-form")).isDisplayed());
+    }
+
+    @Test
     public void VerifyInformation() {
         Newverifiuser();
         WebElement div = this.driver.findElement(By.xpath("//h2[contains(@class, 'title text-center')]"));
@@ -153,5 +166,7 @@ public class App {
         junit.framework.Assert.assertTrue(div.isDisplayed());
 
     }
+
+
 
 }
