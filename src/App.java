@@ -48,8 +48,7 @@ public class App extends Tests {
 
     public static void main(String[] args) throws Exception {
         
-        Test2 test = new Test2();
-        test.userExist();
+        Test2 test = new Test4();
     }
 
     @Test
