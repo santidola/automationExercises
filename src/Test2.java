@@ -5,18 +5,18 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import dev.failsafe.internal.util.Assert;
-
-
 public class Test2 extends App{
    String email;
    String password;
 
+   public Test2(){
+      this.email = "elkoderselagano@gmail.com";
+      this.password = "1234";
+   }
 
    public void Newverifiuser(){
       this.clicksiginup();
-      this.email = "elkoderselagano@gmail.com";
-      this.password = "1234";
+      
 
       List<WebElement> txtemail = this.driver.findElements(By.name("email"));
         txtemail.get(0).sendKeys(this.email);
