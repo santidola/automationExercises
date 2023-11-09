@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -47,17 +48,14 @@ public class App extends Tests {
 
     public static void main(String[] args) throws Exception {
         
-        //se utiliza el poliformismo para instanciar el obejeto, con el finde utilizar el metodo de distintas maneras
-        //pero cambiando su funcionalidad
-        App test = new Test2();
-        test.Newverifiuser();
+        Test2 test = new Test4();
     }
 
     @Test
     // override sobre escribe el metodo(basicamente es utilizar el metodo en cualquier otra clase q la necesitemos
     //instanciandolo con la misma funcionalidad y pudiendo cambiar la informacion)
     @Override
-    public void Newverifiuser() {
+    public void Newverifiuser(String emailp, String password, boolean login) {
 
         clicksiginup();
 
@@ -74,18 +72,24 @@ public class App extends Tests {
             name += charcs[rn.nextInt(0, charcs.length - 1)];
         }
 
+        
+
         WebElement txtname = this.driver.findElement(By.name("name"));
         txtname.sendKeys(name);
 
         int index = rn.nextInt(5, charcs.length - 1);
         for (int i = 0; i < index; i++) {
             String randomChar = charcs[rn.nextInt(0, charcs.length - 1)];
-            if (randomChar != "@") {
+            if (randomChar != "@" && randomChar != "$") {
                 email += randomChar;
             }
         }
-
-        email += "@gmail.com";
+        if(emailp != ""){
+            email = emailp;
+        }
+        else{
+            email += "@gmail.com";
+        }
         List<WebElement> txtemail = this.driver.findElements(By.name("email"));
         txtemail.get(1).sendKeys(email);
 
@@ -95,7 +99,7 @@ public class App extends Tests {
         WebElement Checkbox1 = this.driver.findElement(By.id("id_gender1"));
         Checkbox1.click();
 
-        this.driver.findElement((By.id("password"))).sendKeys("1234");
+        this.driver.findElement((By.id("password"))).sendKeys(password != "" ? password : "1234");
 
         WebElement days = this.driver.findElement(By.id("days"));
         days.click();
@@ -142,6 +146,14 @@ public class App extends Tests {
 
         WebElement btncontinue = driver.findElement(By.xpath("//a[contains(@class,'btn btn-primary')]"));
         btncontinue.click();
+        WebElement closeadd = this.driver.findElement(By.id("dismiss-button"));
+        closeadd.click();
+        if(!login){
+          this.DeleteAccount();  
+        }
+        else{
+            this.SignOut();
+        }
     }
 
     @Test
@@ -153,7 +165,7 @@ public class App extends Tests {
 
     @Test
     public void VerifyInformation() {
-        Newverifiuser();
+        Newverifiuser("", "", false);
         WebElement div = this.driver.findElement(By.xpath("//h2[contains(@class, 'title text-center')]"));
         junit.framework.Assert.assertTrue(div.isDisplayed());
 
@@ -167,6 +179,11 @@ public class App extends Tests {
 
     }
 
+    public void DeleteAccount(){
+        this.driver.findElement(By.xpath("//a[contains(@href, '/delete acount')]")).click();
+    }
 
-
+    public void SignOut(){
+        this.driver.findElement(By.xpath("//a[contains(@href, '/logout')]")).click();
+    }
 }
